@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: assignment:v1
+    container_name: assignment_app
+    working_dir: /Assignment
+    volumes:
+      - .:/Assignment
+    tty: true                  
+    command: bash              

@@ -1,0 +1,15 @@
+seed: 42
+
+train_csv: datasets/train.csv
+# artifacts_dir: artifacts
+# target: Severity        # ← あなたの目的変数名に変更
+# id_column: PatientID    # ← あれば指定、なければ null
+# numeric_features: null  # ← null なら自動判定
+# categorical_features: null
+# model:
+#   type: RandomForestClassifier
+#   params:
+#     n_estimators: 300
+#     class_weight: balanced
+test_size: 0.2
+# stratify: true
