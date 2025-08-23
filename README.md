@@ -1,11 +1,13 @@
 # Environment
 - MacOS Montery (Version 12.7.6)
 - VSCode
+- github for version control (private repo)
 
 # Setup
-1. Build an image, create & start a container
+1. Build an image, create a container
 Run under the assignment directory
 ```
+$ cd Assignment
 $ docker compose up -d  
 ```
 
@@ -25,6 +27,5 @@ docker run -it --rm -v /Users/fujiwaraseita/Desktop/Assignment:/Assignment assig
 # Test (Inference)
 
 
-# Version
 
 
