@@ -3,11 +3,14 @@ seed: 42
 paths:
   train_csv: datasets/covid19-global-forecasting-week-1/train.csv
   test_csv: datasets/covid19-global-forecasting-week-1/test.csv
-
-features:
-  drop: ["Date"]
-  numeric: ["Lat", "Long"]
-  categorical: ["Province/State", "Country/Region"]
-
+  
+features_to_apply:
+  - name: TimeDelayFeatures
+    params:
+      days_history_size: 30
+  - name: DayFeatures
+    params:
+      thresholds: [1, 10, 100]
+  
 train:
   test_size: 0.2
