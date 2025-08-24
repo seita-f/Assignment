@@ -1,3 +1,4 @@
-import geopy.distance
+import os
+import logging
 
 print("This is test")
