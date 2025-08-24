@@ -14,7 +14,7 @@ from src.features.hospital_beds import CountryHospitalBedsFeatures
 from src.features.health_expenditure import CountryHealthExpenditureFeatures
 
 
-FEATURE_REGISTRY = {
+FEATURE_REGISTRY: Dict[str, Type] = {
     "TimeDelayFeatures": TimeDelayFeatures,
     "DayFeatures": DayFeatures,
     "DistanceToOriginFeatures": DistanceToOriginFeatures,
@@ -25,10 +25,10 @@ FEATURE_REGISTRY = {
     "CountryHealthExpenditureFeatures": CountryHealthExpenditureFeatures,
 }
 
-
 class FeatureExtraction:
-    def __init__(self, registry: Dict[str, Type]):
+    def __init__(self, registry: Dict[str, Type], params_map: Dict[str, Dict[str, Any]] | None = None):
         self.registry = registry
+        self.params_map = params_map or {}
 
     def _swap_cruise(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy()
@@ -45,45 +45,32 @@ class FeatureExtraction:
                 df[col] = df[col].fillna("")
         return df
 
-    def add_features(self, df: pd.DataFrame, recipes: List[Dict[str, Any]]) -> pd.DataFrame:
+    def add_features(self, df: pd.DataFrame, enabled_features: list[str]) -> pd.DataFrame:
+        out = self._filling_null(self._swap_cruise(df))
 
-        out = df.copy() 
-        # data processing
-        out = self._swap_cruise(out)
-        out = self._filling_null(out)
-        
-        # add features
-        for r in recipes:
-            name = r["name"]
-            params = r.get("params", {}) or {}
+        for name in enabled_features:  
             cls = self.registry.get(name)
             if cls is None:
-                raise KeyError(f"Feature '{name}' is not registered.")
+                raise KeyError(f"Feature '{name}' is not registered in FEATURE_REGISTRY")
+            params = self.params_map.get(name, {}) or {}
             transformer = cls(**params)
             out = transformer.transform(out)
 
         return out
-    
 
 def main(): 
     # load config
     with open("config/config.yaml", "r") as f:
         cfg = yaml.safe_load(f)
-    train_csv = cfg["paths"]["train_csv"]
-    test_csv  = cfg["paths"]["test_csv"]
+    
+    df = CovidDataLoader(cfg["paths"]["train_csv"], cfg["paths"]["test_csv"]).load()
 
-    # DEBUG:
-    # print(list(cfg.keys()))
+    params_map: Dict[str, Dict[str, Any]] = cfg.get("feature_params", {}) or {}
+    enabled_features: list[str] = cfg.get("features_to_apply", [])
 
-    # load dataset
-    df = CovidDataLoader(train_csv, test_csv).load()
+    fx = FeatureExtraction(FEATURE_REGISTRY, params_map)
+    df_feat = fx.add_features(df, enabled_features)
 
-    # features params
-    recipes = cfg["features_to_apply"]
-
-    # apply features
-    fx = FeatureExtraction(FEATURE_REGISTRY)
-    df_feat = fx.add_features(df, recipes)
     print(df_feat.head(), df_feat.shape)
 
 if __name__ == "__main__":
