@@ -6,11 +6,15 @@ from typing import Dict, Any, List, Type
 from src.data.load_dataset import CovidDataLoader
 from src.features.time_delay import TimeDelayFeatures
 from src.features.day_feature import DayFeatures
+from src.features.distance_to_origin import DistanceToOriginFeatures
+from src.features.country_area import CountryAreaFeatures
 
 
 FEATURE_REGISTRY = {
     "TimeDelayFeatures": TimeDelayFeatures,
     "DayFeatures": DayFeatures,
+    "DistanceToOriginFeatures": DistanceToOriginFeatures,
+    "CountryAreaFeatures": CountryAreaFeatures,
 }
 
 class FeatureExtraction:
@@ -59,7 +63,8 @@ def main():
     train_csv = cfg["paths"]["train_csv"]
     test_csv  = cfg["paths"]["test_csv"]
 
-    print(list(cfg.keys()))
+    # DEBUG:
+    # print(list(cfg.keys()))
 
     # load dataset
     df = CovidDataLoader(train_csv, test_csv).load()

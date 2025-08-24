@@ -1,9 +1,11 @@
 seed: 42
 
+# Dataset
 paths:
   train_csv: datasets/covid19-global-forecasting-week-1/train.csv
   test_csv: datasets/covid19-global-forecasting-week-1/test.csv
   
+# Features 
 features_to_apply:
   - name: TimeDelayFeatures
     params:
@@ -11,6 +13,17 @@ features_to_apply:
   - name: DayFeatures
     params:
       thresholds: [1, 10, 100]
-  
+  - name: DistanceToOriginFeatures
+    params:
+      origin_province: Hubei 
+  - name: CountryAreaFeatures
+    params:
+      source_url: http://api.worldbank.org/v2/en/indicator/AG.LND.TOTL.K2?downloadformat=csv
+      zip_filename: area.zip
+      out_dir: datasets/external_data/area
+      left_on: Country/Region        # original df
+      wb_country_col: Country Name   # 
+      output_col: CountryArea
+
 train:
   test_size: 0.2
