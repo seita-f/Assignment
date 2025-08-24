@@ -29,15 +29,17 @@ class CountryAreaFeatures:
         self,
         source_url: str = "http://api.worldbank.org/v2/en/indicator/AG.LND.TOTL.K2?downloadformat=csv",
         zip_filename: str = "area.zip",
+        known_filename: str = "API_AG.LND.TOTL.K2_DS2_en_csv_*.csv",
         out_dir: Path = "datasets/external_data/area",
-        wb_country_col: str = "Country Name",
+        right_on: str = "Country Name",
         left_on: str = "Country/Region",
         output_col: str = "CountryArea",
     ):
         self.source_url = source_url
         self.zip_filename = zip_filename
+        self.known_filename = known_filename
         self.out_dir = Path(out_dir)
-        self.wb_country_col = wb_country_col
+        self.right_on = right_on
         self.left_on = left_on
         self.output_col = output_col
 
@@ -55,16 +57,16 @@ class CountryAreaFeatures:
         with zipfile.ZipFile(zip_path, "r") as zf:
             zf.extractall(self.out_dir)
         # search file (ignore version for now)
-        candidates = list(self.out_dir.glob("API_AG.LND.TOTL.K2_DS2_en_csv_*.csv"))
+        candidates = list(self.out_dir.glob(self.known_filename))
         if not candidates:
             raise FileNotFoundError(f"No matching World Bank CSV found in {self.out_dir}")
         target_csv = candidates[0]
         print(f"[CountryArea] Using CSV: {target_csv}")
         return target_csv
 
-    def _load_worldbank_area(self, csv_path: str) -> pd.DataFrame:
+    def _load_data(self, csv_path: str) -> pd.DataFrame:
         
-        converters = {self.wb_country_col: remap_country_name_from_world_bank_to_main_df_name}
+        converters = {self.right_on: remap_country_name_from_world_bank_to_main_df_name}
         df = pd.read_csv(csv_path, skiprows=4, converters=converters)
 
         return df
@@ -77,7 +79,6 @@ class CountryAreaFeatures:
             axis='columns'    
         )
         area_df = area_df[['Country Name', 'CountryArea']]
-        area_df = area_df[['Country Name', 'CountryArea']]
 
         return area_df
     
@@ -87,7 +88,7 @@ class CountryAreaFeatures:
 
         zip_path = self._download_zip()
         csv_path = self._unzip_file(zip_path)
-        area_df = self._load_worldbank_area(csv_path)
+        area_df = self._load_data(csv_path)
         area_df = self._get_area(area_df)
 
         merged = pd.merge(
@@ -95,6 +96,6 @@ class CountryAreaFeatures:
             right=area_df,
             how="left",
             left_on=self.left_on,
-            right_on=self.wb_country_col,
+            right_on=self.right_on,
         )
-        return merged.drop(columns=[self.wb_country_col])
+        return merged.drop(columns=[self.right_on])
