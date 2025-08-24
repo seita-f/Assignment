@@ -27,8 +27,18 @@ features_to_apply:
       out_dir: datasets/external_data/area
       left_on: Country/Region        
       right_on: Country Name   
-      output_col: CountryArea
-  
+
+  - name: CountryPopulationFeatures
+    params:
+      source_url: https://github.com/ordinaryevidence/leep-cea/raw/refs/heads/master/WPP2019_PopulationByAgeSex_Medium.zip
+      zip_filename: WPP2019_PopulationByAgeSex_Medium.zip
+      known_filename: WPP2019_PopulationByAgeSex_Medium*.csv
+      out_dir: datasets/external_data/population
+      left_on: Country/Region
+      right_on: Location
+      time_from: 2014-01-01
+      time_to: 2019-01-01
+
   - name: CountrySmokingRateFeatures
     params: 
       source_url: http://api.worldbank.org/v2/en/indicator/SH.PRV.SMOK?downloadformat=csv
@@ -37,7 +47,6 @@ features_to_apply:
       out_dir: datasets/external_data/smoking
       left_on: Country/Region          
       right_on: Country Name    
-      output_col: CountrySmokingRate
 
   - name: CountryHospitalBedsFeatures
     params: 
@@ -47,7 +56,16 @@ features_to_apply:
       out_dir: datasets/external_data/hospital_beds
       left_on: Country/Region          
       right_on: Country Name    
-      output_col: CountrySmokingRate
+
+  - name: CountryHealthExpenditureFeatures
+    params:
+      source_url: http://api.worldbank.org/v2/en/indicator/SH.XPD.CHEX.PP.CD?downloadformat=csv
+      zip_filename: health_expenditure.zip
+      known_filename: API_SH.XPD.CHEX.PP.CD_DS2_en_csv_*.csv   # ignore the version to avoid error
+      out_dir: datasets/external_data/health_expenditure
+      left_on: Country/Region          
+      right_on: Country Name    
+
 
 train:
   test_size: 0.2

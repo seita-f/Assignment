@@ -8,17 +8,23 @@ from src.features.time_delay import TimeDelayFeatures
 from src.features.day_feature import DayFeatures
 from src.features.distance_to_origin import DistanceToOriginFeatures
 from src.features.country_area import CountryAreaFeatures
+from src.features.country_population import CountryPopulationFeatures
 from src.features.smoking import CountrySmokingRateFeatures
 from src.features.hospital_beds import CountryHospitalBedsFeatures
+from src.features.health_expenditure import CountryHealthExpenditureFeatures
+
 
 FEATURE_REGISTRY = {
     "TimeDelayFeatures": TimeDelayFeatures,
     "DayFeatures": DayFeatures,
     "DistanceToOriginFeatures": DistanceToOriginFeatures,
     "CountryAreaFeatures": CountryAreaFeatures,
+    "CountryPopulationFeatures": CountryPopulationFeatures,
     "CountrySmokingRateFeatures": CountrySmokingRateFeatures,
     "CountryHospitalBedsFeatures": CountryHospitalBedsFeatures,
+    "CountryHealthExpenditureFeatures": CountryHealthExpenditureFeatures,
 }
+
 
 class FeatureExtraction:
     def __init__(self, registry: Dict[str, Type]):

@@ -14,7 +14,6 @@ class CountryHospitalBedsFeatures:
         out_dir: Path = "datasets/external_data/hospital_beds",
         right_on: str = "Country Name",
         left_on: str = "Country/Region",
-        output_col: str = "Country",
     ):
         self.source_url = source_url
         self.zip_filename = zip_filename
@@ -22,9 +21,8 @@ class CountryHospitalBedsFeatures:
         self.out_dir = Path(out_dir)
         self.right_on = right_on
         self.left_on = left_on
-        self.output_col = output_col
 
-    def _download_zip(self):
+    def _download_zip(self) -> Path:
         self.out_dir.mkdir(parents=True, exist_ok=True)
         zip_path = self.out_dir / self.zip_filename
         if not zip_path.exists():
@@ -34,7 +32,7 @@ class CountryHospitalBedsFeatures:
             print(f"{zip_path} already exists, skipping download.")
         return zip_path
 
-    def _unzip_file(self, zip_path: Path):
+    def _unzip_file(self, zip_path: Path) -> Path:
         with zipfile.ZipFile(zip_path, "r") as zf:
             zf.extractall(self.out_dir)
         # search file (ignore version for now)
