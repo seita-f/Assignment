@@ -11,6 +11,9 @@ features_to_apply:
   - name: DayFeatures
     params:
       thresholds: [1, 10, 100]
+  - name: DistanceToOrigin
+    params:
+      origin_province: "Hubei" 
   
 train:
   test_size: 0.2

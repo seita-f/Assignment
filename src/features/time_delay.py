@@ -21,6 +21,12 @@ class TimeDelayFeatures:
         # DEBUG: 
         print ('data size after removing bad data = ', len(df))
 
+        # required columns
+        required = {"Country/Region", "Province/State", "ConfirmedCases", "Fatalities", "Date"}
+        missing = required - set(df.columns)
+        if missing:
+            raise KeyError(f"Missing columns for TimeDelayFeatures: {missing}")
+        
         # initialize log columns
         for field in ["LogNewConfirmedCases", "LogNewFatalities"]:
             df[field] = np.nan
