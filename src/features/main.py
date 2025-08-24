@@ -8,13 +8,16 @@ from src.features.time_delay import TimeDelayFeatures
 from src.features.day_feature import DayFeatures
 from src.features.distance_to_origin import DistanceToOriginFeatures
 from src.features.country_area import CountryAreaFeatures
-
+from src.features.smoking import CountrySmokingRateFeatures
+from src.features.hospital_beds import CountryHospitalBedsFeatures
 
 FEATURE_REGISTRY = {
     "TimeDelayFeatures": TimeDelayFeatures,
     "DayFeatures": DayFeatures,
     "DistanceToOriginFeatures": DistanceToOriginFeatures,
     "CountryAreaFeatures": CountryAreaFeatures,
+    "CountrySmokingRateFeatures": CountrySmokingRateFeatures,
+    "CountryHospitalBedsFeatures": CountryHospitalBedsFeatures,
 }
 
 class FeatureExtraction:

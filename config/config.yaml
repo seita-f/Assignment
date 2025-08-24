@@ -10,20 +10,48 @@ features_to_apply:
   - name: TimeDelayFeatures
     params:
       days_history_size: 30
+
   - name: DayFeatures
     params:
       thresholds: [1, 10, 100]
+
   - name: DistanceToOriginFeatures
     params:
       origin_province: Hubei 
+
   - name: CountryAreaFeatures
     params:
       source_url: http://api.worldbank.org/v2/en/indicator/AG.LND.TOTL.K2?downloadformat=csv
       zip_filename: area.zip
+      known_filename: API_AG.LND.TOTL.K2_DS2_en_csv_*.csv   # ignore the version to avoid error
       out_dir: datasets/external_data/area
-      left_on: Country/Region        # original df
-      wb_country_col: Country Name   # 
+      left_on: Country/Region        
+      right_on: Country Name   
       output_col: CountryArea
+  
+  - name: CountrySmokingRateFeatures
+    params: 
+      source_url: http://api.worldbank.org/v2/en/indicator/SH.PRV.SMOK?downloadformat=csv
+      zip_filename: smoking.zip
+      known_filename: API_SH.PRV.SMOK_DS2_en_csv_*.csv   # ignore the version to avoid error
+      out_dir: datasets/external_data/smoking
+      left_on: Country/Region          
+      right_on: Country Name    
+      output_col: CountrySmokingRate
+
+  - name: CountryHospitalBedsFeatures
+    params: 
+      source_url: http://api.worldbank.org/v2/en/indicator/SH.MED.BEDS.ZS?downloadformat=csv
+      zip_filename: hospital_beds.zip
+      known_filename: API_SH.MED.BEDS.ZS_DS2_en_csv_*.csv   # ignore the version to avoid error
+      out_dir: datasets/external_data/hospital_beds
+      left_on: Country/Region          
+      right_on: Country Name    
+      output_col: CountrySmokingRate
 
 train:
   test_size: 0.2
+
+
+
+
