@@ -21,6 +21,11 @@ note: mount fof dev
 docker run -it --rm -v /Users/fujiwaraseita/Desktop/Assignment:/Assignment assignment:v1
 ```
 
+```
+python -m src.data.load_dataset
+python -m src.features.main
+```
+
 # Training
 
 

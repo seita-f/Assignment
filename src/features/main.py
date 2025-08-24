@@ -7,11 +7,14 @@ from src.data.load_dataset import CovidDataLoader
 from src.features.time_delay import TimeDelayFeatures
 from src.features.day_feature import DayFeatures
 from src.features.distance_to_origin import DistanceToOriginFeatures
+from src.features.country_area import CountryAreaFeatures
+
 
 FEATURE_REGISTRY = {
     "TimeDelayFeatures": TimeDelayFeatures,
     "DayFeatures": DayFeatures,
-    "DistanceToOrigin": DistanceToOriginFeatures,
+    "DistanceToOriginFeatures": DistanceToOriginFeatures,
+    "CountryAreaFeatures": CountryAreaFeatures,
 }
 
 class FeatureExtraction:
