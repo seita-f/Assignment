@@ -16,14 +16,6 @@ $ docker compose up -d
 $ docker run -it --rm assignment:v1
 ```
 
-note: mount fof dev
-```
-docker run -it --rm -v /Users/fujiwaraseita/Desktop/Assignment:/Assignment assignment:v1
-```
-
-# config
-
-
 # Feature Extraction
 Feature extraction with file saved you defined in config
 ```
