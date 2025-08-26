@@ -1,0 +1,17 @@
+2025-08-24 14:33:16,779 [INFO] Model params:
+depth: 8
+has_time: true
+iterations: 1000
+learning_rate: 0.05
+
+2025-08-24 14:35:15,627 [INFO] Finished training CatBoost for LogNewConfirmedCases, saved to models/CatBoost_LogNewConfirmedCases.cbm
+2025-08-24 14:37:09,613 [INFO] Finished training CatBoost for LogNewFatalities, saved to models/CatBoost_LogNewFatalities.cbm
+2025-08-24 14:37:11,323 [INFO] Eval prediction sample:
+            Id Province/State Country/Region  ...  PredictedLogNewFatalities  PredictedConfirmedCases PredictedFatalities
+13100   6003.0        Jiangxi          China  ...                   0.016056                    935.0                 1.0
+13101  22278.0       Michigan             US  ...                   0.000000                      3.0                 0.0
+13102  14652.0                        Mexico  ...                   0.000002                     12.0                 0.0
+13103   3771.0    Nova Scotia         Canada  ...                   0.000000                      0.0                 0.0
+13104   6375.0        Ningxia          China  ...                   0.000000                     75.0                 0.0
+
+[5 rows x 97 columns]

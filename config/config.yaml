@@ -2,10 +2,14 @@ seed: 42
 
 # Dataset
 paths:
-  train_csv: datasets/covid19-global-forecasting-week-1/train.csv
-  test_csv: datasets/covid19-global-forecasting-week-1/test.csv
+  train_csv: datasets/covid19_global_forecasting_week_1/train.csv
+  test_csv: datasets/covid19_global_forecasting_week_1/test.csv
   
 # Features (Comment out the feature you don't want to add)
+features:
+  save_df_dir: datasets/covid19_feature_extraction
+  save_filename: sample_features.csv
+
 features_to_apply:
   - TimeDelayFeatures
   - DayFeatures
@@ -70,10 +74,18 @@ feature_params:
     right_on: Country Name   
 
 
-# Train config
+# Train
 train:
+  # eval_size: 0.2  # not necessary
+  save_model_dir: models
+  save_log_dir: logs
   last_train_date: 2020-03-11
   last_eval_date: 2020-03-24
+  cat_features: ["Province/State", "Country/Region"]
+  model: CatBoost   # Choose the model type you want to train
+
+# Test 
+test:
   last_test_date: 2020-04-23
   cat_features: ["Province/State", "Country/Region"]
 
@@ -87,20 +99,17 @@ models:
       depth: 8
       learning_rate: 0.05
 
-  LightGBM:
-    type: LGBMRegressor
-    params:
-      n_estimators: 1000
-      learning_rate: 0.05
-      max_depth: -1
-      num_leaves: 31
+  # LightGBM:
+  #   type: LGBMRegressor
+  #   params:
+  #     n_estimators: 1000
+  #     learning_rate: 0.05
+  #     max_depth: -1
+  #     num_leaves: 31
 
-  XGBoost:
-    type: XGBRegressor
-    params:
-      n_estimators: 1000
-      learning_rate: 0.05
-      max_depth: 6
-
-
-
+  # XGBoost:
+  #   type: XGBRegressor
+  #   params:
+  #     n_estimators: 1000
+  #     learning_rate: 0.05
+  #     max_depth: 6
