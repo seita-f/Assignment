@@ -22,10 +22,10 @@ class DayFeatures:
     def _add_days_since_thresholds(self, df: pd.DataFrame) -> pd.DataFrame:
 
         df = df.copy()
-        for threshold in self.thresholds:
-            df[f"Days_since_ConfirmedCases={threshold}"] = np.nan
-            df[f"Days_since_Fatalities={threshold}"] = np.nan
 
+        if not {"ConfirmedCases", "Fatalities"}.issubset(df.columns):
+            return df
+        
         for location_name, location_df in df.groupby(['Country/Region', 'Province/State']):
             for field in ['ConfirmedCases', 'Fatalities']:
                 for threshold in self.thresholds:
