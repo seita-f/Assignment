@@ -15,6 +15,12 @@ $ docker compose up -d
 ```
 $ docker run -it --rm assignment:v1
 ```
+or <br> 
+Reccomed:
+```
+docker run -it --rm -v <PATH>/Assignment:/Assignment assignment:v1
+Ex: docker run -it --rm -v /Users/fujiwaraseita/Desktop/Assignment:/Assignment assignment:v1
+```
 
 # Feature Extraction
 Feature extraction with file saved you defined in config
